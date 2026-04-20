@@ -1,13 +1,9 @@
-import os  
-import sys
-
-class jugador_del_juego:  
+class JugadorJuego:  
     def __init__(self, nombre, Rol): 
         self.Nombre = nombre 
         self.rol=Rol 
         self.esta_vivo=True
-        
-        variable_inutil = "esto no sirve para nada"  
+          
     def AccionNocturna(self, objetivo=None):  
         if not self.esta_vivo:
             return f"{self.Nombre} está muerto."
@@ -24,35 +20,35 @@ class jugador_del_juego:
         return "Rol desconocido."
 
 
-class gestorPartida:  
+class GestorPartida:  
     def __init__(self):
         self.jugadores =[]
 
     def anadirJugador(self, nombre, type):  
-        self.jugadores.append(jugador_del_juego(nombre,type)) 
+        self.jugadores.append(JugadorJuego(nombre,type)) 
         
     def VotacionDia(self, NombreVotado):
-        for j in self.jugadores:
-            if j.Nombre == NombreVotado:
-                if j.esta_vivo == True:
-                    j.esta_vivo=False
+        for jugador in self.jugadores:
+            if jugador.Nombre == NombreVotado:
+                if jugador.esta_vivo == True:
+                    jugador.esta_vivo=False
                     return "El pueblo ha linchado a " + NombreVotado + " en la hoguera."
         return "Nadie fue linchado."    
         
 
     def ComprobarVictoria(self):  
         
-        list = sum(1 for j in self.jugadores if j.rol == "lobo" and j.esta_vivo)
-        dict = sum(1 for j in self.jugadores if j.rol != "lobo" and j.esta_vivo)
+        lista_jugador = sum(1 for j in self.jugadores if j.rol == "lobo" and j.esta_vivo)
+        dict_jugador = sum(1 for j in self.jugadores if j.rol != "lobo" and j.esta_vivo)
         
-        if list >= dict:
+        if lista_jugador >= dict_jugador:
             return "¡Victoria de los Lobos!"
-        elif list ==0:
+        elif lista_jugador ==0:
             return "¡Victoria de los Aldeanos!"
         return "La partida debe continuar..."
 
 # --- Ejecución caótica ---
-juego=gestorPartida()
+juego=GestorPartida()
 juego.anadirJugador("Nacho", "lobo")
 juego.anadirJugador("Elena", "vidente")
 juego.anadirJugador("Carlos","aldeano")
